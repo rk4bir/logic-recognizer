@@ -64,8 +64,8 @@ a = self.sigmoid(np.dot(w,a) + b)
 ```
 ## Loss/Cost calculation
 ```python
-'''a[-1] is the activations of output layer and 
-n is no. of training data'''
+# a[-1] is the activations of output layer and
+# n is no. of training data
 self.loss = np.sum(np.power(np.subtract(self.a[-1], label), 2)) / 2*self.dataset.batch_size
 ```
 ### Cost derivative
