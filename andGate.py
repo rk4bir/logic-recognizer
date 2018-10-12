@@ -180,6 +180,6 @@ class Network():
 
 
 
-n = Network([2,3,2]size=10000)
+n = Network([2,3,2], size=10000)
 n.train(iterationNo=50000)
 n.test()
