@@ -60,43 +60,43 @@ job.
 
 ## Activation calculation
 ```python
-	a = self.sigmoid(np.dot(w,a) + b)
+a = self.sigmoid(np.dot(w,a) + b)
 ```
 ## Loss/Cost calculation
 ```python
-	'''a[-1] is the activations of output layer and 
-	n is no. of training data'''
-	self.loss = np.sum(np.power(np.subtract(self.a[-1], label), 2)) / 2*self.dataset.batch_size
+'''a[-1] is the activations of output layer and 
+n is no. of training data'''
+self.loss = np.sum(np.power(np.subtract(self.a[-1], label), 2)) / 2*self.dataset.batch_size
 ```
 ### Cost derivative
 ```python
-	cost_derivative = np.subtract(self.a[-1], y)
+cost_derivative = np.subtract(self.a[-1], y)
 ```
 ### Derivative of activation
 ```python
-	def sigmoid_derivative(a):
-		return a * (1-a)
+def sigmoid_derivative(a):
+	return a * (1-a)
 ```
 
 ### Delta and nabla calculations
 **For output layer**
 ```python
-	delta = cost_derivative * self.sigmoid_derivative(self.a[-1])
-	self.nabla_w[-1] = delta.dot(self.a[-2].T)
-	self.nabla_b[-1] = delta
+delta = cost_derivative * self.sigmoid_derivative(self.a[-1])
+self.nabla_w[-1] = delta.dot(self.a[-2].T)
+self.nabla_b[-1] = delta
 ```
 **For hidden layers:** codes for the previous layer of output
 ```python
-	# delta in the right hand side is for output layer
-	delta = np.dot(self.weights[-1].T, delta) * self.sigmoid_derivative(self.a[-2])
-	self.nabla_b[-i] = delta
-	self.nabla_w[-i] = np.dot(delta, self.a[-3].T)
+# delta in the right hand side is for output layer
+delta = np.dot(self.weights[-1].T, delta) * self.sigmoid_derivative(self.a[-2])
+self.nabla_b[-i] = delta
+self.nabla_w[-i] = np.dot(delta, self.a[-3].T)
 ```
 
 ### Update weights and biases
 ```python
-	weight = weight - (learning_rate/self.dataset.batch_size)*nabla_w
-	bias = bias - (learning_rate/self.dataset.batch_size)*nabla_b
+weight = weight - (learning_rate/self.dataset.batch_size)*nabla_w
+bias = bias - (learning_rate/self.dataset.batch_size)*nabla_b
 ```
 
 
@@ -104,7 +104,7 @@ job.
 
 **Install dependencies**
 ```bash
-	pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 **Codes were written for Python v3.6.6**
 
@@ -119,5 +119,5 @@ job.
 
 **Run a logic gate**
 ```bash
-	python3 andGate.py
+python3 andGate.py
 ```
