@@ -165,12 +165,12 @@ class Network():
 			y = self.extract_output(label)
 			if prediction == y:
 				correct += 1
-			print("Test %s: Expected: %s, Predicted: %s, Accuracy: %s"%(
-					index, y, prediction, round((correct/index), 2)
+			print("Test %s: Expected: %s, Predicted: %s, Accuracy: %s percent"%(
+					index, y, prediction, ((correct/index)*100)
 				)
 			)
 			index += 1
 
 n = Network([2,3,2], size=1000)
-n.train(iterationNo=100000)
+n.train(iterationNo=60000)
 n.test()

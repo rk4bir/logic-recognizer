@@ -172,8 +172,8 @@ class Network():
 			y = self.extract_output(label)
 			if prediction == y:
 				correct += 1
-			print("Test %s: Expected: %s, Predicted: %s, Accuracy: %s"%(
-					index, y, prediction, round((correct/index), 2)
+			print("Test %s: Expected: %s, Predicted: %s, Accuracy: %s percent"%(
+					index, y, prediction, ((correct/index)*100)
 				)
 			)
 			index += 1

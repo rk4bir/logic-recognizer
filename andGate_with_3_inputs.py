@@ -180,7 +180,7 @@ class Network():
 				)
 			)"""
 			index += 1
-		print(" accuracy is", (correct/index))
+		print(" accuracy is %s"%((correct/index)*100) + "%")
 
 
 n = Network([3,3,2], size=1000)
