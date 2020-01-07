@@ -1,9 +1,11 @@
-#!/usr/bin/python3
+#!/env/bin/python3
 import numpy as np
 import random
 
+
 class Dataset():
-	def __init__(self, size=10, tt_ratio=0.2, batch_size=1):
+	
+	def __init__(self, size=10, tt_ratio=0.2, batch_size=1, gate='and'):
 		# total number of test+train data
 		self.size = size
 		# test / train data ratio
@@ -18,28 +20,57 @@ class Dataset():
 		self.batch_size = batch_size
 		#
 		self.total_batch_per_epoch = size - self.testNo
-		self.set_datasets()
+		self.set_datasets(gate=gate)
 
-	def set_datasets(self):
-		self.generate_data()
+	def set_datasets(self, gate='and'):
+		self.generate_data(gate=gate)
 		self.test_d = self.data[0:self.testNo]
 		self.test_l = self.label[0:self.testNo]
 		self.train_d = self.data[self.testNo:]
 		self.train_l = self.label[self.testNo:]
 
 	@staticmethod
-	def getLabel(x1, x2):
-		''' AND GATE LOGIC HERE '''
+	def getLabel(x1, x2, gate='and'):
+		''' Generate label according to gate argument '''
 		arr = np.array([0,0])
-		if x1 == x2 and x1 == 1:
+		if gate == 'and':
+			if x1 == x2 and x1 == 1:
+				arr[1] = 1
+				return arr.T
+			arr[0] = 1
+			return arr.T
+
+		if gate == 'nand':
+			if x1 == x2 and x1 == 1:
+				arr[0] = 1
+				return arr.T
 			arr[1] = 1
 			return arr.T
-		arr[0] = 1
-		return arr.T
 
-	def generate_data(self):
+		if gate == 'nor':
+			if x1 == x2 and x1 == 0:
+				arr[1] = 1
+				return arr.T
+			arr[0] = 1
+			return arr.T
+
+		if gate == 'xnor':
+			if x1 == x2:
+				arr[1] = 1
+				return arr.T
+			arr[0] = 1
+			return arr.T
+
+		if gate == 'xor':
+			if x1 == x2:
+				arr[0] = 1
+				return arr.T
+			arr[1] = 1
+			return arr.T
+
+	def generate_data(self, gate='and'):
 		self.data = np.array(np.random.random([self.size, 2]) >= 0.5, dtype=np.int32)
-		self.label= np.array([ self.getLabel(d[0],d[1]) for d in self.data])
+		self.label= np.array([ self.getLabel(d[0],d[1], gate=gate) for d in self.data])
 
 	@property
 	def get_next(self):
@@ -63,8 +94,10 @@ class Dataset():
 		_y = np.array(_y)
 		return [_x, _y]
 
+
 class Network():
-	def __init__(self, layers=[2,3,2], size=10):
+
+	def __init__(self, layers=[2,3,2], size=10, gate='and'):
 		'''
 			in the argument layers, at index 0, 2 is input size
 			so, this is not related to any weights and biases
@@ -78,7 +111,7 @@ class Network():
 		self.z = None
 		self.layersNo = len(layers)
 		self.layers = layers
-		self.dataset = Dataset(size=size, tt_ratio=0.2)
+		self.dataset = Dataset(size=size, tt_ratio=0.2, gate=gate)
 		self.loss = None
 		self.losses = []
 
@@ -115,8 +148,8 @@ class Network():
 			with the delta calculations considering that fact.
 
 			delta^L = a^L-1 * der(a^L) * (a^L-y); 			   # for output neurons
-			delta^L-1 = a^L-2 * der(a^L-1) * (w^L-1 * delta^L) #for hidden
-															   #layer neurons
+			delta^L-1 = a^L-2 * der(a^L-1) * (w^L-1 * delta^L) # for hidden
+															   # layer neurons
 		'''
 		cost_derivative = np.subtract(self.a[-1], y)
 		delta = cost_derivative * self.sigmoid_derivative(self.a[-1])
@@ -179,7 +212,8 @@ class Network():
 			index += 1
 
 
-
-n = Network([2,3,2], size=10000)
-n.train(iterationNo=50000)
-n.test()
+if __name__ == '__main__':
+	gates = ['and', 'nand', 'nor', 'xnor', 'xor']
+	n = Network([2,3,2], size=10000, gate='xor')
+	n.train(iterationNo=100000)
+	n.test()

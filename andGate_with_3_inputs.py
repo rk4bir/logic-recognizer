@@ -1,8 +1,9 @@
-#!/usr/bin/python3
 import numpy as np
 import random
 
+
 class Dataset():
+
 	def __init__(self, size=10, tt_ratio=0.2, batch_size=1):
 		# total number of test+train data
 		self.size = size
@@ -65,6 +66,7 @@ class Dataset():
 
 
 class Network():
+
 	def __init__(self, layers=[3,3,2], size=10):
 		'''
 			in the argument layers, at index 0, 2 is input size
@@ -153,7 +155,7 @@ class Network():
 		for i in range(iterationNo):
 			data, label = self.dataset.get_next
 			self.feedforward(data.T)
-			self.backwardprop(label.T, learning_rate=0.01)
+			self.backwardprop(label.T, learning_rate=0.02)
 			"""print("Training %s: Loss = %s"%(
 					i, self.loss
 				)
@@ -183,8 +185,9 @@ class Network():
 		print(" accuracy is %s"%((correct/index)*100) + "%")
 
 
-n = Network([3,3,2], size=1000)
-# accuracy against training...
-for i in range(200, 10000, 200):
-	n.train(iterationNo=i)
-	n.test()
+if __name__ == '__main__':
+	n = Network([3,3,2], size=1000)
+	# accuracy against training...
+	for i in range(200, 8000, 200):
+		n.train(iterationNo=i)
+		n.test()
