@@ -119,5 +119,5 @@ pip3 install -r requirements.txt
 
 **Run a logic gate**
 ```bash
-python3 andGate.py
+python3 LogicRecognizer.py
 ```
