@@ -4,8 +4,7 @@
 > to that. You can modify some pieces of code to make it useful to recognize 
 > any logic :-)
 > The recognizer was tested against **AND, NAND, NOR, EXNOR, EXNAND**
-> logic-gates and the output is quite promising. It gives 100% accuracy
----
+> ---
 
 ## LOGIC-GATE TRUTH TABLES
 ![image](/img/truth_table.gif)
